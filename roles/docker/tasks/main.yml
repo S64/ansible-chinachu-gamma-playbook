@@ -1,0 +1,34 @@
+- name: uninstall old docker (yum)
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}} state=absent"
+  with_items:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-selinux
+    - docker-engine-selinux
+    - docker-engine
+
+- name: install yum utils
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}}"
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: add docker repo (yum)
+  shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+  when: ansible_distribution == 'CentOS'
+
+- name: install docker (yum)
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}}"
+  with_items:
+    - docker-ce
+
+- name: enable docker
+  service: name=docker enabled=yes state=started

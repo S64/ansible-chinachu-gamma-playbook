@@ -1,0 +1,33 @@
+- name: disable pcscd
+  service: name=pcscd enabled=no state=stoped
+
+- name: "add user `chinachu`"
+  user: name=chinachu system=yes shell=/bin/bash createhome=yes
+
+- name: clone dockerfiles
+  sudo_user: chinachu
+  git: repo=git+https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=~/docker-mirakurun-chinachu accept_hostkey=yes
+
+- name: copy mirakurun-chinachu.service
+  sudo_user: chinachu
+  template: >
+    src=mirakurun-chinachu.service.j2
+    dest=/opt/chinachu/.config/systemd/user/mirakurun-chinachu.service
+
+- name: copy mirakurun-user.service
+  sudo_user: chinachu
+  template: >
+    src=mirakurun-user.service.j2
+    dest=/opt/chinachu/.config/systemd/user/mirakurun-user.service
+
+- name: enable mirakurun-chinachu
+  systemd:
+    name: mirakurun-chinachu
+    enabled: yes
+    user: yes
+
+- name: enable mirakurun-user
+  systemd:
+    name: mirakurun-user
+    enabled: yes
+    user: yes

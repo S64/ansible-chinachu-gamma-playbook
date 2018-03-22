@@ -1,0 +1,8 @@
+---
+- hosts: all # to install
+  sudo: true
+  roles:
+    - { role: misc_drivers }
+    - { role: px-w3pe_driver }
+    - { role: docker }
+    - { role: mirakurun-chinachu }

@@ -1,0 +1,34 @@
+- stat: path=/usr/lib64/asv5220_dtv.ko
+  register: ko_asv5220_dtv
+
+- name: download PX-W3PE driver
+  get_url: url=http://plex-net.co.jp/plex/px-w3pe/PX-W3PE_LinuxDriver_ver.1.0.0.zip dest=/tmp/PX-W3PE_LinuxDriver_ver.1.0.0.zip
+  when: not ko_asv5220_dtv.stat.exists
+
+- name: unzip PX-W3PE driver (PX-W3PE_LinuxDriver_ver.1.0.0.zip)
+  shell: unzip -n -d /tmp /tmp/PX-W3PE_LinuxDriver_ver.1.0.0.zip
+  when: not ko_asv5220_dtv.stat.exists
+
+- name: unzip PX-W3PE 64bit driver (Driver/64bit.tar.gz)
+  shell: tar xvzf /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver/64bit.tar.gz -C /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver
+  when: not ko_asv5220_dtv.stat.exists
+
+- name: cp asv5220_dtv.ko to /usr/lib64
+  sudo_user: root
+  shell: cp --update /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver/64bit/asv5220_dtv.ko /usr/lib64/asv5220_dtv.ko
+  when: not ko_asv5220_dtv.stat.exists
+
+- name: copy asv5220_dtv.modules
+  sudo_user: root
+  template: >
+    src=asv5220_dtv.modules.j2
+    dest=/etc/sysconfig/modules/asv5220_dtv.modules
+    owner=root
+    group=root
+    mode=0644
+  when: not ko_asv5220_dtv.stat.exists
+
+- name: install PX-W3PE driver (asv5220_dtv.ko)
+  sudo_user: root
+  shell: insmod /usr/lib64/asv5220_dtv.ko
+  when: not ko_asv5220_dtv.stat.exists
