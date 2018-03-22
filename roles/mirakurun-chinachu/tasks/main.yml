@@ -1,6 +1,12 @@
 - name: disable pcscd
   service: name=pcscd enabled=no state=stoped
 
+- name: install git (yum)
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}}"
+  with_items:
+    - git
+
 - name: "add user `chinachu`"
   user: name=chinachu system=yes shell=/bin/bash createhome=yes
 

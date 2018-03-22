@@ -10,31 +10,37 @@
 - stat: path=/usr/bin/pcsc_scan
   register: pcsc_scan_binary
 
-- name: download pcsc-perl (pcsc-perl-1.4.13.tar.bz2)
-  get_url: url=http://ludovic.rousseau.free.fr/softwares/pcsc-perl/pcsc-perl-1.4.13.tar.bz2 dest=/tmp/pcsc_drivers/pcsc-perl-1.4.13.tar.bz2
+- name: download pcsc-perl (pcsc-perl-1.4.14.tar.bz2)
+  get_url: url=http://ludovic.rousseau.free.fr/softwares/pcsc-perl/pcsc-perl-1.4.14.tar.bz2 dest=/tmp/pcsc_drivers/pcsc-perl-1.4.14.tar.bz2
   when: not pcsc_scan_binary.stat.exists
 
+- name: install bzip2 (yum)
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}}"
+  with_items:
+    - bzip2
+
 - name: unzip pcsc-perl
-  shell: tar jxvf /tmp/pcsc_drivers/pcsc-perl-1.4.13.tar.bz2 -C /tmp/pcsc_drivers/
+  shell: tar jxvf /tmp/pcsc_drivers/pcsc-perl-1.4.14.tar.bz2 -C /tmp/pcsc_drivers/
   when: not pcsc_scan_binary.stat.exists
 
 - name: perl Makefile.PL (pcsc-perl)
   shell: perl Makefile.PL
   args:
-    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.13
+    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.14
   when: not pcsc_scan_binary.stat.exists
 
 - name: make pcsc-perl
   shell: make
   args:
-    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.13
+    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.14
   when: not pcsc_scan_binary.stat.exists
 
 - name: install pcsc-perl
   sudo_user: root
   shell: make install
   args:
-    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.13
+    chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.14
   when: not pcsc_scan_binary.stat.exists
 
 - name: download pcsc-tools (pcsc-tools-1.4.23.tar.gz)
