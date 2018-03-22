@@ -1,3 +1,11 @@
+- name: install build essentials (yum)
+  when: ansible_pkg_mgr == 'yum'
+  action: "{{ansible_package_mgr}} name={{item}}"
+  with_items:
+    - "@Development Tools"
+    - kernel-devel
+    - kernel-headers
+
 - name: install pcsc-lite (yum)
   when: ansible_pkg_mgr == 'yum'
   action: "{{ansible_package_mgr}} name={{item}}"
@@ -13,13 +21,6 @@
 - name: download pcsc-perl (pcsc-perl-1.4.14.tar.bz2)
   get_url: url=http://ludovic.rousseau.free.fr/softwares/pcsc-perl/pcsc-perl-1.4.14.tar.bz2 dest=/tmp/pcsc_drivers/pcsc-perl-1.4.14.tar.bz2
   when: not pcsc_scan_binary.stat.exists
-
-- name: install bzip2, perl (yum)
-  when: ansible_pkg_mgr == 'yum'
-  action: "{{ansible_package_mgr}} name={{item}}"
-  with_items:
-    - bzip2
-    - perl
 
 - name: unzip pcsc-perl
   shell: tar jxvf /tmp/pcsc_drivers/pcsc-perl-1.4.14.tar.bz2 -C /tmp/pcsc_drivers/
