@@ -25,7 +25,7 @@
     dest=/etc/sysconfig/modules/plex.modules
     owner=root
     group=root
-    mode=0644
+    mode=0755
   when: not ko_tty_Virtual.stat.exists
 
 - name: activate tty_Virtual.ko
