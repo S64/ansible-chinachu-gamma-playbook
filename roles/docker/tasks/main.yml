@@ -39,10 +39,10 @@
   service: name=docker enabled=yes state=started
 
 - stat: path=/usr/local/bin/docker-compose
-  register: docker-compose_binary
+  register: docker_compose_binary
 
 - name: install docker-compose
-  when: not docker-compose_binary.stat.exists
+  when: not docker_compose_binary.stat.exists
   get_url:
     url: https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
