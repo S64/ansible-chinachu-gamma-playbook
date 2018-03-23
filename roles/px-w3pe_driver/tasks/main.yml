@@ -1,31 +1,36 @@
-- stat: path=/usr/lib64/asv5220_dtv.ko
-  register: ko_asv5220_dtv
+- stat: path=/usr/lib64/tty_Virtual.ko
+  register: ko_tty_Virtual
 
-- name: download PX-W3PE driver
-  get_url: url=http://plex-net.co.jp/plex/px-w3pe/PX-W3PE_LinuxDriver_ver.1.0.0.zip dest=/tmp/PX-W3PE_LinuxDriver_ver.1.0.0.zip
-  when: not ko_asv5220_dtv.stat.exists
+- name: download PLEX driver
+  when: not ko_tty_Virtual.stat.exists
+  get_url:
+    url: http://plex-net.co.jp/plex/linux/CentOS7-1708_64bit_kernel3.10.0-693.zip
 
-- name: unzip PX-W3PE driver (PX-W3PE_LinuxDriver_ver.1.0.0.zip)
-  shell: unzip -n -d /tmp /tmp/PX-W3PE_LinuxDriver_ver.1.0.0.zip
-  when: not ko_asv5220_dtv.stat.exists
+- name: unzip PLEX driver
+  when: not ko_tty_Virtual.stat.exists
+  shell: unzip -n -d /tmp /tmp/CentOS7-1708_64bit_kernel3.10.0-693.zip
 
-- name: unzip PX-W3PE 64bit driver (Driver/64bit.tar.gz)
-  shell: tar xvzf /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver/64bit.tar.gz -C /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver
-  when: not ko_asv5220_dtv.stat.exists
+- name: cp tty_Virtual.ko to /usr/lib64
+  when: not ko_tty_Virtual.stat.exists
+  shell: cp --update /tmp/CentOS7-1708_64bit_kernel3.10.0-693/tty_Virtual.ko /usr/lib64/tty_Virtual.ko
 
-- name: cp asv5220_dtv.ko to /usr/lib64
-  shell: cp --update /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver/64bit/asv5220_dtv.ko /usr/lib64/asv5220_dtv.ko
-  when: not ko_asv5220_dtv.stat.exists
+- name: cp usb-px4.ko to /usr/lib64
+  when: not ko_tty_Virtual.stat.exists
+  shell: cp --update /tmp/CentOS7-1708_64bit_kernel3.10.0-693/usb-px4.ko /usr/lib64/usb-px4.ko
 
-- name: copy asv5220_dtv.modules
+- name: copy plex.modules
   template: >
-    src=asv5220_dtv.modules.j2
-    dest=/etc/sysconfig/modules/asv5220_dtv.modules
+    src=plex.modules.j2
+    dest=/etc/sysconfig/modules/plex.modules
     owner=root
     group=root
     mode=0644
-  when: not ko_asv5220_dtv.stat.exists
+  when: not ko_tty_Virtual.stat.exists
 
-- name: install PX-W3PE driver (asv5220_dtv.ko)
-  shell: insmod /usr/lib64/asv5220_dtv.ko
-  when: not ko_asv5220_dtv.stat.exists
+- name: activate tty_Virtual.ko
+  shell: insmod /usr/lib64/tty_Virtual.ko
+  when: not ko_tty_Virtual.stat.exists
+
+- name: activate usb-px4.ko
+  shell: insmod /usr/lib64/usb-px4.ko
+  when: not ko_tty_Virtual.stat.exists

@@ -1,26 +1,34 @@
 - name: disable pcscd
-  service: name=pcscd enabled=no state=stopped
+  service:
+    name: pcscd
+    enabled: no
+    state: stopped
 
 - name: "add user `chinachu`"
-  user: name=chinachu system=yes shell=/bin/bash home=/opt/chinachu createhome=yes
+  user:
+    name: chinachu
+    system: yes
+    shell: /bin/bash
+    home: /opt/chinachu
+    createhome: yes
 
 - name: clone dockerfiles
   become: yes
   become_to: chinachu
-  git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=/opt/chinachu/docker-mirakurun-chinachu accept_hostkey=yes
+  git:
+    repo: https://github.com/Chinachu/docker-mirakurun-chinachu.git
+    dest: /opt/chinachu/docker-mirakurun-chinachu
+    accept_hostkey: yes
 
-- name: copy mirakurun-chinachu chkconfig
-  template: >
-    src=mirakurun-chinachu.chkconfig.j2
-    dest=/etc/rc.d/init.d/mirakurun-chinachu
-    mode=0755
+- name: copy mirakurun-chinachu.service
+  sudo_user: chinachu
+  template:
+    src: mirakurun-chinachu.service.j2
+    dest: /opt/chinachu/.config/systemd/user/mirakurun-chinachu.service
+    mode: 0755
 
-- name: install chkconfig scripts
-  shell: "chkconfig --add {{ item }}"
-  with_items:
-    - mirakurun-chinachu
-
-- name: enable chkconfig scripts
-  shell: "chkconfig {{ item }} on"
-  with_items:
-    - mirakurun-chinachu
+- name: enable mirakurun-chinachu
+  systemd:
+    name: mirakurun-chinachu
+    enabled: yes
+    user: yes
