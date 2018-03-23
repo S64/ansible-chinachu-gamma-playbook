@@ -1,15 +1,7 @@
-- name: uninstall old docker
-  yum: "name={{item}} state=absent"
+- name: add epel repo
+  yum: "name={{item}}"
   with_items:
-    - docker
-    - docker-client
-    - docker-client-latest
-    - docker-common
-    - docker-latest
-    - docker-latest-logrotate
-    - docker-selinux
-    - docker-engine-selinux
-    - docker-engine
+    - epel-release
 
 - name: install yum utils
   yum: "name={{item}}"
@@ -18,12 +10,10 @@
     - device-mapper-persistent-data
     - lvm2
 
-- name: add docker repo
-  shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
-  when: ansible_distribution == 'CentOS'
-
-- name: install docker
-  shell: "yum install -y docker-ce-17.12.1.ce-1.el7.centos --setopt=obsoletes=0"
+- name: install docker**-io** (for CentOS 6)
+  yum: "name={{item}}"
+  with_items:
+    - docker-io
 
 - name: enable docker
   service: name=docker enabled=yes state=started
