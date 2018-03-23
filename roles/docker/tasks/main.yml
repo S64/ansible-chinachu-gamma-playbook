@@ -23,7 +23,7 @@
   when: ansible_distribution == 'CentOS'
 
 - name: install docker
-  yum: "name={{item}} obsoletes=0"
+  yum: "name={{item}}"
   with_items:
     - docker-ce-17.03.8.ce-1.el7.centos
 
