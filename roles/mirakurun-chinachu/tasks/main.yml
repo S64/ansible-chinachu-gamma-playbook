@@ -8,9 +8,6 @@
   sudo_user: chinachu
   git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=/opt/chinachu/docker-mirakurun-chinachu accept_hostkey=yes
 
-- name: mkdir /opt/chinachu/.config/systemd/user/
-  file: dest=/opt/chinachu/.config/systemd/user state=directory
-
 - name: copy mirakurun-chinachu chkconfig
   template: >
     src=mirakurun-chinachu.chkconfig.j2
