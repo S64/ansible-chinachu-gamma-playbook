@@ -1,5 +1,5 @@
 - name: disable pcscd
-  service: name=pcscd enabled=no state=stoped
+  service: name=pcscd enabled=no state=stopped
 
 - name: "add user `chinachu`"
   user: name=chinachu system=yes shell=/bin/bash createhome=yes
