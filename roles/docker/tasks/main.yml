@@ -18,10 +18,5 @@
 - name: enable docker
   service: name=docker enabled=yes state=started
 
-- name: install pip
-  yum: "name={{item}}"
-  with_items:
-    - python-pip
-
 - name: install docker-compose
-  shell: bash -lc "pip install -U docker-compose"
+  get_url: url=https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64 dest=/usr/local/bin/docker-compose mode=0755
