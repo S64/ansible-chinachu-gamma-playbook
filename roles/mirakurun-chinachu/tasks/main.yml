@@ -6,7 +6,7 @@
 
 - name: clone dockerfiles
   sudo_user: chinachu
-  git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=~/docker-mirakurun-chinachu accept_hostkey=yes
+  git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=/opt/chinachu/docker-mirakurun-chinachu accept_hostkey=yes
 
 - name: copy mirakurun-chinachu.service
   sudo_user: chinachu
