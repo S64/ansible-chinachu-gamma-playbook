@@ -23,9 +23,9 @@
   when: ansible_distribution == 'CentOS'
 
 - name: install docker
-  yum: "name={{item}}"
+  yum: "name={{item}} obsoletes=0"
   with_items:
-    - docker-ce-17.83.8.ce-1.el7.centos
+    - docker-ce-17.03.8.ce-1.el7.centos
 
 - name: enable docker
   service: name=docker enabled=yes state=started
