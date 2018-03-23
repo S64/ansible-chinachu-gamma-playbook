@@ -46,7 +46,6 @@
   when: not pcsc_scan_binary.stat.exists
 
 - name: install pcsc-perl
-  sudo_user: root
   shell: make install
   args:
     chdir: /tmp/pcsc_drivers/pcsc-perl-1.4.14

@@ -14,14 +14,14 @@
 
 - name: clone dockerfiles
   become: yes
-  become_to: chinachu
+  become_user: chinachu
   git:
     repo: https://github.com/Chinachu/docker-mirakurun-chinachu.git
     dest: /opt/chinachu/docker-mirakurun-chinachu
     accept_hostkey: yes
 
 - name: copy mirakurun-chinachu.service
-  sudo_user: chinachu
+  become_user: chinachu
   template:
     src: mirakurun-chinachu.service.j2
     dest: /opt/chinachu/.config/systemd/user/mirakurun-chinachu.service
