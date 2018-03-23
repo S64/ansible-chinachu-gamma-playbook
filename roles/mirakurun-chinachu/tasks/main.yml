@@ -34,6 +34,7 @@
     mode: 0755
 
 - name: enable mirakurun-chinachu
+  become_user: chinachu
   systemd:
     name: mirakurun-chinachu
     enabled: yes
