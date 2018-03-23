@@ -23,9 +23,7 @@
   when: ansible_distribution == 'CentOS'
 
 - name: install docker
-  yum: "name={{item}}"
-  with_items:
-    - docker-ce-17.12.1.ce-1.el7.centos
+  shell: "yum install -y docker-ce-17.12.1.ce-1.el7.centos --setopt=obsoletes=0"
 
 - name: enable docker
   service: name=docker enabled=yes state=started
