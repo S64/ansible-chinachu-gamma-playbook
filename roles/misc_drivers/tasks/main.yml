@@ -14,6 +14,9 @@
     - pcsc-lite-libs
     - ccid
 
+- name: mkdir /tmp/pcsc_drivers
+  file: dest=/tmp/pcsc_drivers state=directory
+
 - stat: path=/usr/bin/pcsc_scan
   register: pcsc_scan_binary
 
