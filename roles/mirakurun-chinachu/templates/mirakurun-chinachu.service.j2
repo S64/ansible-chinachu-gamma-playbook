@@ -14,8 +14,8 @@ Restart=on-failure
 WorkingDirectory=/opt/chinachu/docker-mirakurun-chinachu
 ExecStart=/usr/local/bin/docker-compose up -d
 ExecStop=/usr/local/bin/docker-compose stop
-User=chinachu
-Group=chinachu
+#User=chinachu
+#Group=chinachu
 
 [Install]
 WantedBy=multi-user.target
