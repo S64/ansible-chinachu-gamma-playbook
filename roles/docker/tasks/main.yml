@@ -17,3 +17,11 @@
 
 - name: enable docker
   service: name=docker enabled=yes state=started
+
+- name: install pip
+  yum: "name={{item}}"
+  with_items:
+    - pip
+
+- name: install docker-compose
+  shell: bash -lc "pip install -U docker-compose"
