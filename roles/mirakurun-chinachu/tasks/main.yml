@@ -30,4 +30,3 @@
   systemd:
     name: mirakurun-chinachu
     enabled: yes
-    user: yes
