@@ -1,3 +1,8 @@
+- name: install ansible depends
+  yum: "name={{item}}"
+  with_items:
+    - libselinux-python
+
 - name: install build essentials
   yum: "name={{item}}"
   with_items:
