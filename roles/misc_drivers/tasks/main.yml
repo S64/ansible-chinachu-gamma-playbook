@@ -1,15 +1,13 @@
-- name: install build essentials (yum)
-  when: ansible_pkg_mgr == 'yum'
-  action: "{{ansible_package_mgr}} name={{item}}"
+- name: install build essentials
+  yum: "name={{item}}"
   with_items:
     - "@Development Tools"
     - kernel-devel
     - kernel-headers
     - perl-ExtUtils-MakeMaker
 
-- name: install pcsc-lite (yum)
-  when: ansible_pkg_mgr == 'yum'
-  action: "{{ansible_package_mgr}} name={{item}}"
+- name: install pcsc-lite
+  yum: "name={{item}}"
   with_items:
     - pcsc-lite
     - pcsc-lite-devel
