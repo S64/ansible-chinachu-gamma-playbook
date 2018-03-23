@@ -1,4 +1,8 @@
+- stat: path=/bin/docker
+  register: docker_binary
+
 - name: uninstall old docker
+  when: not docker_binary.stat.exists
   yum: "name={{item}} state=absent"
   with_items:
     - docker
@@ -12,6 +16,7 @@
     - docker-engine
 
 - name: install yum utils
+  when: not docker_binary.stat.exists
   yum: "name={{item}}"
   with_items:
     - yum-utils
@@ -19,13 +24,26 @@
     - lvm2
 
 - name: add docker repo (CentOS)
+  when: not docker_binary.stat.exists
   shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
   when: ansible_distribution == 'CentOS'
 
 - name: install docker
+  when: not docker_binary.stat.exists
   yum: "name={{item}}"
   with_items:
     - docker-ce
 
 - name: enable docker
+  when: not docker_binary.stat.exists
   service: name=docker enabled=yes state=started
+
+- stat: path=/usr/local/bin/docker-compose
+  register: docker-compose_binary
+
+- name: install docker-compose
+  when: not docker-compose_binary.stat.exists
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
