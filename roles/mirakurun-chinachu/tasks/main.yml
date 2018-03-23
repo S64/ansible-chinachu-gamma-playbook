@@ -20,21 +20,13 @@
     dest: /opt/chinachu/docker-mirakurun-chinachu
     accept_hostkey: yes
 
-- name: mkdir /opt/chinachu/.config/systemd/user
-  become_user: chinachu
-  file:
-    dest: /opt/chinachu/.config/systemd/user
-    state: directory
-
 - name: copy mirakurun-chinachu.service
-  become_user: chinachu
   template:
     src: mirakurun-chinachu.service.j2
-    dest: /opt/chinachu/.config/systemd/user/mirakurun-chinachu.service
+    dest: /etc/systemd/system/mirakurun-chinachu.service
     mode: 0755
 
 - name: enable mirakurun-chinachu
-  become_user: chinachu
   systemd:
     name: mirakurun-chinachu
     enabled: yes
