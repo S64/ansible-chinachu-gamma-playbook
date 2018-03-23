@@ -20,3 +20,31 @@
 
 - name: install docker-compose
   get_url: url=https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64 dest=/usr/local/bin/docker-compose mode=0755
+
+- name: download glibc 2.14
+  get_url:
+    url: "http://ftp.gnu.org/gnu/glibc/glibc-2.14.tar.gz"
+    dest: /tmp/glibc-2.14.tar.gz
+
+- name: unzip glibc-2.14.tar.gz
+  shell: tar zxvf /tmp/glibc-2.14.tar.gz
+  args:
+    chdir: /tmp/
+
+- name: mkdir /tmp/glibc-2.14/build
+  file: dest=/tmp/glibc-2.14/build state=directory
+
+- name: configure glibc
+  shell: ../configure --prefix=/opt/glibc-2.14
+  args:
+    chdir: /tmp/glibc-2.14
+
+- name: make glibc
+  shell: make -j4
+  args:
+    chdir: /tmp/glibc-2.14
+
+- name: install glibc
+  shell: make install
+  args:
+    chdir: /tmp/glibc-2.14
