@@ -5,7 +5,8 @@
   user: name=chinachu system=yes shell=/bin/bash home=/opt/chinachu createhome=yes
 
 - name: clone dockerfiles
-  sudo_user: chinachu
+  become: yes
+  become_to: chinachu
   git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=/opt/chinachu/docker-mirakurun-chinachu accept_hostkey=yes
 
 - name: copy mirakurun-chinachu chkconfig

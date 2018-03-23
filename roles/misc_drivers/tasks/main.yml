@@ -73,7 +73,6 @@
   when: not pcsc_scan_binary.stat.exists
 
 - name: install pcsc-tools
-  sudo_user: root
   shell: make install
   args:
     chdir: /tmp/pcsc_drivers/pcsc-tools-1.5.2
@@ -97,7 +96,6 @@
     chdir: /tmp/pcsc_drivers/arib25/pt1-c44e16dbb0e2/arib25
 
 - name: install arib25
-  sudo_user: root
   shell: make install
   args:
     chdir: /tmp/pcsc_drivers/arib25/pt1-c44e16dbb0e2/arib25

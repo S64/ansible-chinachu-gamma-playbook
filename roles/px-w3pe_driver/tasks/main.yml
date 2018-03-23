@@ -14,12 +14,10 @@
   when: not ko_asv5220_dtv.stat.exists
 
 - name: cp asv5220_dtv.ko to /usr/lib64
-  sudo_user: root
   shell: cp --update /tmp/PX-W3PE_LinuxDriver_ver.1.0.0/Driver/64bit/asv5220_dtv.ko /usr/lib64/asv5220_dtv.ko
   when: not ko_asv5220_dtv.stat.exists
 
 - name: copy asv5220_dtv.modules
-  sudo_user: root
   template: >
     src=asv5220_dtv.modules.j2
     dest=/etc/sysconfig/modules/asv5220_dtv.modules
@@ -29,6 +27,5 @@
   when: not ko_asv5220_dtv.stat.exists
 
 - name: install PX-W3PE driver (asv5220_dtv.ko)
-  sudo_user: root
   shell: insmod /usr/lib64/asv5220_dtv.ko
   when: not ko_asv5220_dtv.stat.exists
