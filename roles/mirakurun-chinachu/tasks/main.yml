@@ -2,11 +2,11 @@
   service: name=pcscd enabled=no state=stopped
 
 - name: "add user `chinachu`"
-  user: name=chinachu system=yes shell=/bin/bash createhome=yes
+  user: name=chinachu system=yes shell=/bin/bash home=/opt/chinachu createhome=yes
 
 - name: clone dockerfiles
   sudo_user: chinachu
-  git: repo=git+https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=~/docker-mirakurun-chinachu accept_hostkey=yes
+  git: repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git dest=~/docker-mirakurun-chinachu accept_hostkey=yes
 
 - name: copy mirakurun-chinachu.service
   sudo_user: chinachu
