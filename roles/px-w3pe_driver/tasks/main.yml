@@ -5,6 +5,7 @@
   when: not ko_tty_Virtual.stat.exists
   get_url:
     url: http://plex-net.co.jp/plex/linux/CentOS7-1708_64bit_kernel3.10.0-693.zip
+    dest: /tmp/CentOS7-1708_64bit_kernel3.10.0-693.zip
 
 - name: unzip PLEX driver
   when: not ko_tty_Virtual.stat.exists
