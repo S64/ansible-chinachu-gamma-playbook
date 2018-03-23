@@ -25,9 +25,3 @@
   shell: "chkconfig {{ item }} on"
   with_items:
     - mirakurun-chinachu
-
-- name: enable mirakurun-user
-  systemd:
-    name: mirakurun-user
-    enabled: yes
-    user: yes
