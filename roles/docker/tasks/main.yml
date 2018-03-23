@@ -25,7 +25,7 @@
 - name: install docker
   yum: "name={{item}}"
   with_items:
-    - docker-ce-17.03.8.ce-1.el7.centos
+    - docker-ce-17.12.1.ce-1.el7.centos
 
 - name: enable docker
   service: name=docker enabled=yes state=started
