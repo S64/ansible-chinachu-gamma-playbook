@@ -37,7 +37,7 @@
 - name: configure glibc
   shell: ../configure --prefix=/opt/glibc-2.14
   args:
-    chdir: /tmp/glibc-2.14
+    chdir: /tmp/glibc-2.14/build
 
 - name: make glibc
   shell: make -j4
