@@ -21,7 +21,7 @@
 - name: install pip
   yum: "name={{item}}"
   with_items:
-    - pip
+    - python-pip
 
 - name: install docker-compose
   shell: bash -lc "pip install -U docker-compose"
