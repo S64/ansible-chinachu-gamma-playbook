@@ -21,7 +21,10 @@
     accept_hostkey: yes
 
 - name: mkdir /opt/chinachu/.config/systemd/user
-  file: dest=/opt/chinachu/.config/systemd/user state=directory
+  become_user: chinachu
+  file:
+    dest: /opt/chinachu/.config/systemd/user
+    state: directory
 
 - name: copy mirakurun-chinachu.service
   become_user: chinachu
