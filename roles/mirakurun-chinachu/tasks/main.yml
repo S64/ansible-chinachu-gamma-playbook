@@ -11,23 +11,20 @@
 - name: mkdir /opt/chinachu/.config/systemd/user/
   file: dest=/opt/chinachu/.config/systemd/user state=directory
 
-- name: copy mirakurun-chinachu.service
-  sudo_user: chinachu
+- name: copy mirakurun-chinachu chkconfig
   template: >
-    src=mirakurun-chinachu.service.j2
-    dest=/opt/chinachu/.config/systemd/user/mirakurun-chinachu.service
+    src=mirakurun-chinachu.chkconfig.j2
+    dest=/etc/rc.d/init.d/mirakurun-chinachu
 
-- name: copy mirakurun-user.service
-  sudo_user: chinachu
-  template: >
-    src=mirakurun-user.service.j2
-    dest=/opt/chinachu/.config/systemd/user/mirakurun-user.service
+- name: install chkconfig scripts
+  shell: "chkconfig --add {{ item }}"
+  with_items:
+    - mirakurun-chinachu
 
-- name: enable mirakurun-chinachu
-  systemd:
-    name: mirakurun-chinachu
-    enabled: yes
-    user: yes
+- name: enable chkconfig scripts
+  shell: "chkconfig {{ item }} on"
+  with_items:
+    - mirakurun-chinachu
 
 - name: enable mirakurun-user
   systemd:

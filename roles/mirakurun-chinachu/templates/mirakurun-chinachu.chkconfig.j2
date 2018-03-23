@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# /etc/rc.d/init.d/mirakurun-chinachu
+# {{ ansible_managed }}
+
+user="chinachu"
+workspace="/opt/chinachu/docker-mirakurun-chinachu"
+cmdpath="/usr/local/bin/docker-compose"
+prog="mirakurun-chinachu
+lockfile="/var/lock/subsys/mirakurun-chinachu
+pidfile="/var/run/mirakurun-chinachu.pid"
+PATH="$PATH:/usr/local/bin"
+
+start() {
+    cd $workspace
+    su -l $user -c "$cmdpath up -d"
+    retval=$?
+    pid=$!
+
+    [ $retval -eq 0 ] && touch $lockfile && echo $pid > $pidfile
+
+    return $retval
+}
+
+stop() {
+    cd $workspace
+    su -l $user -c "$cmdpath stop"
+    retval=$?
+
+    [ $retval -eq 0 ] && rm -f $lockfile && rm -f $pidfile
+
+    return $retval
+}
+
+restart() {
+    stop
+    sleep 3
+    start
+}
+
+case "$1" in
+    start)
+        $1
+        ;;
+    stop)
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 2
+esac
