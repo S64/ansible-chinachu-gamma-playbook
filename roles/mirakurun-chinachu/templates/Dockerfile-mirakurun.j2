@@ -53,7 +53,7 @@ RUN set -x \
 	\
 	# ccid
 	&& cd /tmp \
-	&& curl -s https://alioth.debian.org/frs/download.php/file/4205/ccid-1.4.26.tar.bz2 -o ccid-latest.tar.bz2 \
+	&& (curl -s https://alioth.debian.org/frs/download.php/file/4205/ccid-1.4.26.tar.bz2 -o ccid-latest.tar.bz2 || curl -s http://ftp.debian.org/debian/pool/main/c/ccid/ccid_1.4.26.orig.tar.bz2 -o ccid-latest.tar.bz2) \
 	&& tar xvf ccid-*.tar.bz2 \
 	&& cd ccid-* \
 	&& ./configure \
