@@ -29,6 +29,6 @@ services:
      - ./chinachu/conf/config.json:/usr/local/chinachu/config.json
      - ./chinachu/conf/rules.json:/usr/local/chinachu/rules.json
      - ./chinachu/data:/usr/local/chinachu/data
-     - /mnt/recorded-storage01:/usr/local/chinachu/recorded
+     - ./chinachu/recorded:/usr/local/chinachu/recorded
     links:
      - mirakurun:container-mirakurun
