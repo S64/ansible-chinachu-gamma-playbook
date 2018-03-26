@@ -74,7 +74,7 @@
 
 - name: "chmod volumes: chinachu/recorded"
   file:
-    path: /opt/chinachu/docker-mirakurun-chinachu/chinachu/recorded
+    path: /opt/chinachu/docker-mirakurun-chinachu/recorded
     state: directory
     mode: 0777
     owner: nobody
