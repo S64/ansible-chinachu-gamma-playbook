@@ -4,17 +4,10 @@
     enabled: no
     state: stopped
 
-- name: "add user `chinachu`"
-  user:
-    name: chinachu
-    system: yes
-    shell: /bin/bash
-    home: /opt/chinachu
-    createhome: yes
+- name: mkdir /opt/chinachu
+  file: dest=/opt/chinachu state=directory
 
 - name: clone dockerfiles
-  become: yes
-  become_user: chinachu
   git:
     repo: https://github.com/Chinachu/docker-mirakurun-chinachu.git
     dest: /opt/chinachu/docker-mirakurun-chinachu
@@ -30,3 +23,51 @@
   systemd:
     name: mirakurun-chinachu
     enabled: yes
+
+- name: copy docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/chinachu/docker-mirakurun-chinachu/docker-compose.yml
+    mode: 0755
+
+- name: copy Dockerfile
+  template:
+    src: Dockerfile-mirakurun.j2
+    dest: /opt/chinachu/docker-mirakurun-chinachu/mirakurun/Dockerfile
+    mode: 0755
+
+- name: "chmod volumes: mirakurun/conf"
+  file:
+    path: /opt/chinachu/docker-mirakurun-chinachu/mirakurun/conf
+    state: directory
+    recurse: yes
+    owner: nobody
+    group: nobody
+    mode: 0777
+
+- name: "chmod volumes: mirakurun/db"
+  file:
+    path: /opt/chinachu/docker-mirakurun-chinachu/mirakurun/db
+    state: directory
+    recurse: yes
+    owner: nobody
+    group: nobody
+    mode: 0777
+
+- name: "chmod volumes: chinachu/conf"
+  file:
+    path: /opt/chinachu/docker-mirakurun-chinachu/chinachu/conf
+    state: directory
+    mode: 0777
+    owner: nobody
+    group: nobody
+    recurse: yes
+
+- name: "chmod volumes: chinachu/data"
+  file:
+    path: /opt/chinachu/docker-mirakurun-chinachu/chinachu/data
+    state: directory
+    mode: 0777
+    owner: nobody
+    group: nobody
+    recurse: yes

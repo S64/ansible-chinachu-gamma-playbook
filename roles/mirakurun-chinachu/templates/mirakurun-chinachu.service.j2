@@ -12,10 +12,8 @@ Type=simple
 RemainAfterExit=yes
 Restart=on-failure
 WorkingDirectory=/opt/chinachu/docker-mirakurun-chinachu
-ExecStart=/usr/local/bin/docker-compose up --no-recreate
+ExecStart=/usr/local/bin/docker-compose up --force-recreate
 ExecStop=/usr/local/bin/docker-compose stop
-#User=chinachu
-#Group=chinachu
 
 [Install]
 WantedBy=multi-user.target
