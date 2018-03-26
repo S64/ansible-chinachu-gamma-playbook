@@ -71,3 +71,12 @@
     owner: nobody
     group: nobody
     recurse: yes
+
+- name: "chmod volumes: chinachu/recorded"
+  file:
+    path: /opt/chinachu/docker-mirakurun-chinachu/chinachu/recorded
+    state: directory
+    mode: 0777
+    owner: nobody
+    group: nobody
+    recurse: yes
