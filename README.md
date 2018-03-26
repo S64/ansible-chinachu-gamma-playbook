@@ -23,6 +23,7 @@
 また、`docker-mirakurun-chinachu`に対し
 
 - PLEX向け`recpt1` (MyRecpt1) を `/usr/local/bin/recpx4` としてインストール
+- `alioth.debian.org`がよく落ちるため、`ccid-1.4.26.tar.bz2`のミラーを追加
 
 などのカスタマイズを加えています。  
 なお、現バージョンは冪等性を担保していないため注意してください。
